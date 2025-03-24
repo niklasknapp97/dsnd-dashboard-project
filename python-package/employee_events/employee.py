@@ -1,3 +1,6 @@
+import sqlite3
+import pandas as pd
+
 # Import the QueryBase class
 from employee_events.query_base import QueryBase
 
@@ -65,5 +68,8 @@ class Employee(QueryBase):
                         USING({self.name}_id)
                     WHERE {self.name}.{self.name}_id = {id}
                 """
-        with connect("python-package/employee_events/employee_events.db") as conn:
+        with sqlite3.connect("python-package/employee_events/employee_events.db") as conn:
             return pd.read_sql_query(query_str, conn)
+    
+    def get_user_names_and_ids(self):
+        return self.names()

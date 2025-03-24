@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 from employee_events import QueryBase, Employee, Team
 
 # import the load_model function from the utils.py file
-from .utils import load_model
+from utils import load_model
 
 """
 Below, we import the parent classes
 you will use for subclassing
 """
-from .base_components import (
+from base_components import (
     Dropdown,
     BaseComponent,
     Radio,
@@ -19,23 +19,23 @@ from .base_components import (
     DataTable
     )
 
-from .combined_components import FormGroup, CombinedComponent
+from combined_components import FormGroup, CombinedComponent
 
 
 # Create a subclass of base_components/dropdown
 # called `ReportDropdown`
 class ReportDropdown(Dropdown):
     # Overwrite the build_component method
-    def build_component(self, model, **kwargs):
+    def build_component(self, entity_id, model, **kwargs):
         # Set the `label` attribute so it is set
         # to the `name` attribute for the model
         self.label = model.name
         # Return the output from the
         # parent class's build_component method
-        return super().build_component(model, **kwargs)
+        return super().build_component(entity_id, model, **kwargs)
     
     # Overwrite the `component_data` method
-    def component_data(self, model, **kwargs):
+    def component_data(self, entity_id, model, **kwargs):
         # Using the model argument
         # call the employee_events method
         # that returns the user-type's
@@ -47,7 +47,7 @@ class ReportDropdown(Dropdown):
 # called `Header`
 class Header(BaseComponent):
     # Overwrite the `build_component` method
-    def build_component(self, model, **kwargs):
+    def build_component(self, entity_id, model, **kwargs):
         # Using the model argument for this method
         # return a fasthtml H1 objects
         # containing the model's name attribute
@@ -59,7 +59,7 @@ class Header(BaseComponent):
 class LineChart(MatplotlibViz):
     # Overwrite the parent class's `visualization`
     # method. Use the same parameters as the parent
-    def visualization(self, model, asset_id, **kwargs):
+    def visualization(self, asset_id, model, **kwargs):
         # Pass the `asset_id` argument to
         # the model's `event_counts` method to
         # receive the x (Day) and y (event count)
@@ -70,7 +70,7 @@ class LineChart(MatplotlibViz):
         
         # Use the pandas .set_index method to set
         # the date column as the index
-        data.set_index('date', inplace=True)
+        data.set_index('event_date', inplace=True)
         
         # Sort the index
         data.sort_index(inplace=True)
@@ -93,7 +93,7 @@ class LineChart(MatplotlibViz):
         # pass the axis variable
         # to the `.set_axis_styling`
         # method
-        self.set_axis_styling(ax, border_color='black', font_color='black')
+        self.set_axis_styling(ax)
         
         # Set title and labels for x and y axis
         ax.set_title('Event Counts', fontsize=20)
@@ -109,7 +109,7 @@ class BarChart(MatplotlibViz):
 
     # Overwrite the parent class `visualization` method
     # Use the same parameters as the parent
-    def visualization(self, model, asset_id, **kwargs):
+    def visualization(self, asset_id, model, **kwargs):
         # Using the model and asset_id arguments
         # pass the `asset_id` to the `.model_data` method
         # to receive the data that can be passed to the machine
@@ -147,7 +147,7 @@ class BarChart(MatplotlibViz):
         # pass the axis variable
         # to the `.set_axis_styling`
         # method
-        self.set_axis_styling(ax, border_color='black', font_color='black')
+        self.set_axis_styling(ax)
 
 
 # Create a subclass of combined_components/CombinedComponent
@@ -171,7 +171,7 @@ class Visualizations(CombinedComponent):
 class NotesTable(DataTable):
     # Overwrite the `component_data` method
     # using the same parameters as the parent class
-    def component_data(self, model, entity_id, **kwargs):
+    def component_data(self, entity_id, model, **kwargs):
         # Using the model and entity_id arguments
         # pass the entity_id to the model's .notes 
         # method. Return the output
