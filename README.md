@@ -73,23 +73,20 @@ To set up and run the dashboard locally, follow these steps:
    ```
 
 2. Create a virtual environment and activate it:
-
-  ```bash
-  python -m venv venv
-  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-  ```
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
 
 3. Install the required dependencies:
-
-  ```bash
-  pip install -r requirements.txt
-  ```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. Run the app:
-
-  ```bash
-  python app.py
-  ```
+   ```bash
+   python app.py
+   ```
 
 5. Visit http://127.0.0.1:8000 in your web browser to view the dashboard.
 
